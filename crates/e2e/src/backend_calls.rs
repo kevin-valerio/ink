@@ -168,6 +168,11 @@ where
         )
         .await?;
 
+        let debug = &dry_run.debug_message();
+        if !debug.is_empty() {
+            println!("DEBUG_MESSAGE_FROM_INK = {:?}", debug);
+        }
+
         Ok(CallResult {
             dry_run,
             events: call_result,
