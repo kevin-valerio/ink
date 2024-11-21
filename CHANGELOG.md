@@ -10,14 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - [Linter] Add links to detailed lint description ‒ [#2170](https://github.com/use-ink/ink/pull/2170)
 - Add `xcm_execute` and `xcm_send` support - [#1912](https://github.com/use-ink/ink/pull/1912)
 -  Environment agnostic contract invocation API ‒ [#219](https://github.com/use-ink/ink/pull/2219)
+- [E2E] Add ability to take and restore snapshots - [#2261](https://github.com/paritytech/ink/pull/2261) (thanks [@0xLucca](https://github.com/0xLucca)!)
 
 ### Changed
 - [E2E] Update `subxt` and `polkadot-sdk` dependencies ‒ [#2174](https://github.com/use-ink/ink/pull/2174)
 - Update repository URLs & references from `paritytech` GitHub organization to new `use-ink` one ‒ [#2220](https://github.com/use-ink/ink/pull/2220) and [#2248](https://github.com/use-ink/ink/pull/2248)
+- Fix XCM-support to single encode the XCM message [#2278](https://github.com/use-ink/ink/pull/2278)
 
 ### Fixed
 - Fix outdated docs for `[ink_e2e::test]` ‒ [#2162](https://github.com/use-ink/ink/pull/2162)
 - [E2E] build contracts before initializing node rpc ‒ [#2168](https://github.com/use-ink/ink/pull/2162)
+- [E2E] `set_account_balance` now can't set balance below existential deposit - [#1983](https://github.com/paritytech/ink/pull/1983) (thanks [@0xLucca](https://github.com/0xLucca)!)
+- ERC-721: `burn()` clears token approval - [#2099](https://github.com/paritytech/ink/pull/2099)
 
 ## Version 5.0.0
 

@@ -42,27 +42,32 @@ jobs:
 
       - name: Install toolchain
         id: toolchain
-        uses: dtolnay/rust-toolchain@d8352f6b1d2e870bc5716e7a6d9b65c4cc244a1a # Master branch, Rust up to 1.74.1
+        uses: dtolnay/rust-toolchain@7b1c307e0dcbda6122208f10795a713336a9b35a # Master branch, Rust up to 1.74.1
         with:
           toolchain: ${{ matrix.toolchain }}
           components: rust-src
 
       - name: Install cargo-dylint
-        uses: baptiste0928/cargo-install@9f6037ed331dcf7da101461a20656273fa72abf0 # v3.1.0
+        uses: baptiste0928/cargo-install@904927dbe77864e0f2281519fe9d5bd097a220b3 # v3.1.1
         with:
           crate: cargo-dylint
           version: 1
 
       - name: Install dylint-link
-        uses: baptiste0928/cargo-install@9f6037ed331dcf7da101461a20656273fa72abf0 # v3.1.0
+        uses: baptiste0928/cargo-install@904927dbe77864e0f2281519fe9d5bd097a220b3 # v3.1.1
         with:
           crate: dylint-link
           version: 1
 
       - name: Download and run latest `substrate-contracts-node` binary
         if: matrix.os == 'macOS-latest'
+        env:
+            CONTRACTS_NODE_URL: https://github.com/paritytech/substrate-contracts-node/releases/latest/download/substrate-contracts-node-
+            CONTRACTS_NODE_OS: mac-universal
         run: |
-            curl -L -o substrate-contracts-node.zip 'https://gitlab.parity.io/parity/mirrors/substrate-contracts-node/-/jobs/artifacts/main/download?job=build-mac' && \
+            curl -L -o substrate-contracts-node.tar.gz "$CONTRACTS_NODE_URL$CONTRACTS_NODE_OS.tar.gz" && \
+            tar xfzv substrate-contracts-node.tar.gz && \
+            chmod +x artifacts/substrate-contracts-node-*/substrate-contracts-node && \
             unzip substrate-contracts-node.zip && \
             chmod +x artifacts/substrate-contracts-node-mac/substrate-contracts-node &&
             ./artifacts/substrate-contracts-node-mac/substrate-contracts-node -linfo,runtime::contracts=debug  2>&1 | tee /tmp/contracts-node.log &
@@ -74,10 +79,10 @@ jobs:
             substrate-contracts-node -lruntime::contracts=debug  2>&1 | tee /tmp/contracts-node.log &
 
       - name: Rust Cache
-        uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
+        uses: Swatinem/rust-cache@82a92a6e8fbeee089604da2575dc567ae9ddeaab # v2.7.5
 
       - name: Install `cargo-contract` `master`
-        uses: baptiste0928/cargo-install@9f6037ed331dcf7da101461a20656273fa72abf0 # v3.1.0
+        uses: baptiste0928/cargo-install@904927dbe77864e0f2281519fe9d5bd097a220b3 # v3.1.1
         with:
             crate: cargo-contract
             git: https://github.com/use-ink/cargo-contract.git
